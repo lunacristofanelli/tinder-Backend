@@ -10,7 +10,7 @@ export class DBService{
         this.pool = createPool({
             port: 3306,
             database: 'tinder',
-            password: 'root',
+            password: 'luna',
             host: 'localhost',
             user: 'root',
             connectionLimit: 10,
