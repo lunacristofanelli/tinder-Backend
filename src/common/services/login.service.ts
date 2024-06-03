@@ -7,7 +7,6 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class LoginService {
-  salt: string = '$2a$08$W59jWcwio1TiLx4A8iRyTO';
   constructor(
     private dbService: DBService,
     private jwtService: JwtService,
@@ -19,11 +18,14 @@ export class LoginService {
     return hash;
   }
 
-  async login(user: any) {
+  async login(user:any) {
     const resultQuery: RowDataPacket[] = await this.dbService.executeSelect(
       usuarioQueries.selectByEmail,
       [user.username],
     );
+
+    const passwordEncriptado = await this.generateHash(user.password)
+    console.log (passwordEncriptado);
 
     if (resultQuery.length === 0) {
       throw new HttpException('Acceso denegado', HttpStatus.UNAUTHORIZED);
@@ -53,5 +55,10 @@ export class LoginService {
     return {
       accessToken: this.jwtService.sign(payload),
     };
+  }
+
+  async generarPassword(password:string){
+    const passwordEncriptado = await this.generateHash(password);
+    return passwordEncriptado;
   }
 }

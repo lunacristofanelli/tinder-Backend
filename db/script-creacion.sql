@@ -1,6 +1,6 @@
-create schema if not exist tinder;
+create schema if not exist wish;
 
-use tinder;
+use wish;
 
 create table if not exist roles (
     rolID integer auto_increment,
