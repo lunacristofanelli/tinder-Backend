@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { JwtMiddlewareGuard } from 'src/common/middleware/auth-guard';
 
@@ -11,4 +11,11 @@ export class UsuarioController {
   async getAll() {
     return await this.usuarioService.getAll();
   }
+
+  @Get('/info')
+  @UseGuards(JwtMiddlewareGuard)
+  async getInformacionUsuario(@Req() request) {
+    return request.user;
+  }
+
 }
