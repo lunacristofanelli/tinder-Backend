@@ -18,6 +18,7 @@ export class UsuarioController {
     return request.user;
   }
 
+<<<<<<< HEAD
   // @Patch('/updateProfile')
   // @UseGuards(JwtMiddlewareGuard)
   // async updateProfile(@Req() request, @Body() body: { email: string; password: string }) {
@@ -31,4 +32,6 @@ export class UsuarioController {
   //   const userId = request.user.usuarioID;
   //   return await this.usuarioService.changePassword(userId, body.oldPassword, body.newPassword);
   // }
+=======
+>>>>>>> 968b0951b830ea1836d1310a33149c34373d399e
 }

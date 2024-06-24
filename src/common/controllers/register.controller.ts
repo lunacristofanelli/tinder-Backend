@@ -11,6 +11,7 @@ export class RegisterController {
     const username = await this.registerService.register(body);
     return { message: `Usuario ${username} creado con éxito` };
   }
+<<<<<<< HEAD
 
   // @Put('/actualizarPerfil')
   // @UseGuards(JwtMiddlewareGuard) // Protegido con JWT
@@ -26,4 +27,6 @@ export class RegisterController {
   //   return await this.registerService.cambiarPassword(userId, body.oldPassword, body.newPassword);
   // }
 
+=======
+>>>>>>> 968b0951b830ea1836d1310a33149c34373d399e
 }

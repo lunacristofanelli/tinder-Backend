@@ -11,6 +11,7 @@ export class LoginController {
     return await this.loginService.login(body);
   }
 
+<<<<<<< HEAD
   // @Post('/generarPassword')
   // @HttpCode(200)
   // async generarPassword(@Body() body: { password: string }) {
@@ -31,4 +32,11 @@ export class LoginController {
   //   return await this.loginService.cambiarPassword(userId, body.oldPassword, body.newPassword);
   // }
 
+=======
+  @Post('/generarPassword')
+  @HttpCode(200)
+  async generarPassword(@Body() body: { password: string }) {
+    return await this.loginService.generarPassword(body.password);
+  }
+>>>>>>> 968b0951b830ea1836d1310a33149c34373d399e
 }
