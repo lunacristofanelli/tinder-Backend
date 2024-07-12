@@ -16,4 +16,6 @@ export class LoginController {
   async generarPassword(@Body() body: { password: string }) {
     return await this.loginService.generarPassword(body.password);
   }
+
+
 }

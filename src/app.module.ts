@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AdministradorModule } from './administrador/administrador.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { CommonModule } from './common/common.module';
+import { InteresesModule } from './interesesUsuarios/intereses.module';
+import { MatchesModule } from './matches/matches.module';
 
 @Module({
-  imports: [AdministradorModule, UsuarioModule, CommonModule],
+  imports: [InteresesModule, UsuarioModule, CommonModule ,MatchesModule],
   controllers: [],
   providers: [],
 })

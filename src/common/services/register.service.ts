@@ -2,31 +2,30 @@ import { Injectable } from '@nestjs/common';
 import { DBService } from './db.service';
 import usuarioQueries from 'src/usuario/queries/usuario.queries';
 import * as bcrypt from 'bcrypt';
-import UserRegister from 'src/model/datosUsuario/dto/register.dto';
+import { UsuarioDto } from 'src/usuario/dtoUsuario/dto.usuarios';
 
 @Injectable()
 export class RegisterService {
-  salt: string = '$2a$08$W59jWcwio1TiLx4A8iRyTO';
 
-  constructor(private dbService: DBService) {}
+  constructor(private dbService: DBService) { }
 
   async generateHash(pw: string) {
-    const hash = await bcrypt.hash(pw, this.salt);
+    const hash = await bcrypt.hash(pw, 10);
     return hash;
   }
 
-  async register(user: UserRegister): Promise<Omit<UserRegister, 'password'>> {
-    const encriptedPassword = await this.generateHash(user.password);
+  async registerUser(usuarioDto: UsuarioDto): Promise<Omit<UsuarioDto, 'password'>> {
+    const { email, password, activo, rolID } = usuarioDto;
+    const encryptedPassword = await this.generateHash(password);
 
-    await this.dbService.executeQuery(usuarioQueries.registerUser, [
-      user.email,
-      encriptedPassword,
+    await this.dbService.execute(usuarioQueries.registerUser, [
+      email,
+      encryptedPassword,
       1,
       2,
     ]);
 
-    const { password, ...userWithoutPassword } = user;
-
+    const { password: _, ...userWithoutPassword } = usuarioDto;
     return userWithoutPassword;
   }
 }

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { UsuarioService } from './usuario.service';
-import { CommonModule } from 'src/common/common.module';
-import { UsuarioController } from './usuario.controller';
+import { InteresesController } from './intereses.controller';
+import { InteresesService } from './intereses.service';
+import { DBService } from 'src/common/services/db.service';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({
@@ -11,8 +11,8 @@ import { JwtModule } from '@nestjs/jwt';
         'hjfdsalhfdsahfjkdsakreaurceukfbukalsfyuej43243545y47988367+++fdsfjhdsifyhujdshfjkdsahfjkdskgfhjdsgfygsuyejkgfhdjgfsgejfgdjhsdgfhjsekfyhdbsyfjegfjdysgfjyefgydegfhjseyrfeyr63254342343',
       signOptions: { expiresIn: '1h' },
     }),
-   CommonModule],
-  controllers: [UsuarioController],
-  providers: [UsuarioService],
+  ],
+  controllers: [InteresesController],
+  providers: [InteresesService, DBService],
 })
-export class UsuarioModule {}
+export class InteresesModule {}
