@@ -19,36 +19,35 @@ export class LoginService {
     return hash;
   }
 
-  async login(user:any) {
+  async login(user : any) {
+
     const resultQuery: RowDataPacket[] = await this.dbService.executeSelect(
       usuarioQueries.selectByEmail,
-      [user.username],
+      [user.email],
     );
-
-    const passwordEncriptado = await this.generateHash(user.password)
-    console.log (passwordEncriptado);
-
+  
     if (resultQuery.length === 0) {
       throw new HttpException('Acceso denegado', HttpStatus.UNAUTHORIZED);
     }
-
+  
     const dbUser = {
       email: resultQuery[0].email,
       password: resultQuery[0].password,
       role: resultQuery[0].codigo,
     };
-
+  
     const isValidPassword = await bcrypt.compare(
       user.password,
       dbUser.password,
     );
-
+  
     if (!isValidPassword) {
       throw new HttpException('Acceso denegado', HttpStatus.UNAUTHORIZED);
     }
-
+  
     return this.getAccessToken(dbUser);
   }
+  
 
   getAccessToken(user: any) {
     const payload = { email: user.email, role: user.role };

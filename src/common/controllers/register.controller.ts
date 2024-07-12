@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { RegisterService } from '../services/register.service';
+import { UsuarioDto } from 'src/usuario/dtoUsuario/dto.usuarios';
 
 
 @Controller('/register')
@@ -7,8 +8,9 @@ export class RegisterController {
   constructor(private registerService: RegisterService) {}
 
   @Post()
-  async Register(@Body() body: { email: string; password: string }) {
-    const username = await this.registerService.register(body);
-    return { message: `Usuario ${username} creado con éxito` };
+  async registerUser(@Body() usuarioDto: UsuarioDto) {
+    const userWithoutPassword = await this.registerService.registerUser(usuarioDto);
+    return { message: `Usuario ${userWithoutPassword.email} creado con éxito`, user: userWithoutPassword };
   }
+
 }
