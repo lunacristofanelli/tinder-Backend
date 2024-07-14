@@ -7,7 +7,7 @@ import { UsuarioDto } from './dtoUsuario/dto.usuarios';
 
 @Injectable()
 export class UsuarioService {
-  constructor(private dbService: DBService) { }
+  constructor(private dbService: DBService) {}
   async getAll() {
     const resultQuery: RowDataPacket[] = await this.dbService.executeSelect(
       usuarioQueries.selectAll,
@@ -26,20 +26,23 @@ export class UsuarioService {
   async getLikeableUsers(email: string) {
     const resultQuery: RowDataPacket[] = await this.dbService.executeSelect(
       usuarioQueries.selectLikeableUsers,
-      [email,email],
+      [email, email],
     );
-    const usuarios = resultQuery.map((rs: RowDataPacket) => {
-      return {
+    const usuarios = [];
+    for (const rs of resultQuery) {
+      const intereses = await this.getInteresesUsuarios(rs['usuarioID']);
+      const imagenes = await this.getImagenesUsuarios(rs['usuarioID']);
+      usuarios.push({
         id: rs['usuarioID'],
         email: rs['email'],
         nombre: rs['nombre'],
         apellido: rs['apellido'],
         dni: rs['dni'],
         genero: rs['genero'],
-        intereses: this.getInteresesUsuarios(rs['usuarioID']),
-        imagenes: this.getImagenesUsuarios(rs['usuarioID']),
-      };
-    });
+        intereses: intereses,
+        imagenes: imagenes,
+      });
+    }
     return usuarios;
   }
 
@@ -88,10 +91,14 @@ export class UsuarioService {
   }
 
   async selectUserById(usuarioID: number) {
-    return await this.dbService.executeSelect(usuarioQueries.selectUserById, [usuarioID]);
+    return await this.dbService.executeSelect(usuarioQueries.selectUserById, [
+      usuarioID,
+    ]);
   }
 
   async selectUserByEmail(email: string) {
-    return await this.dbService.executeSelect(usuarioQueries.selectByEmail, [email]);
+    return await this.dbService.executeSelect(usuarioQueries.selectByEmail, [
+      email,
+    ]);
   }
 }

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { InteresesService } from './intereses.service';
 import { CreateInterestDto } from './dto/dto.crear.interes';
 import { UserInterestDto } from './dto/dto.intereses.usuarios';
@@ -9,7 +17,6 @@ export class InteresesController {
   constructor(private interesesService: InteresesService) {}
 
   @Get()
-  @UseGuards(JwtMiddlewareGuard)
   async getInterests() {
     return await this.interesesService.getInterests();
   }
@@ -44,7 +51,10 @@ export class InteresesController {
   @Delete('/usuario')
   @UseGuards(JwtMiddlewareGuard)
   async deleteUserInterest(@Body() userInterestDto: UserInterestDto) {
-    await this.interesesService.deleteUserInterest(userInterestDto.perfilID, userInterestDto.interesID);
+    await this.interesesService.deleteUserInterest(
+      userInterestDto.perfilID,
+      userInterestDto.interesID,
+    );
     return { message: 'Interés de usuario eliminado con éxito' };
   }
 }
